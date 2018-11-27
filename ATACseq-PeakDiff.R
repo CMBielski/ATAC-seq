@@ -311,6 +311,19 @@ write.table(
   col.names = T
 )
 
+cd4_r_bams = data.table(cd4_metadata[which(cd4_metadata$Response == "R"), ], keep.rownames = T)
+setnames(cd4_r_bams, old = "rn", new = "path")
+for (i in 1:3) {cd4_r_bams[, path := sub("\\.", "/", path)]}
+
+write.table(
+  cd4_r_bams,
+  "CD4_memory_PrePost_bams.txt",
+  sep = "\t",
+  quote = F,
+  row.names = F,
+  col.names = T
+)
+
 write.table(
   merged_saf[Coord_ID %in% cd4.pre_resdata[pvalue < .05]$coord_id, .(Chr, Start, End)],
   "CD4_memory_RnR.bed",
@@ -319,6 +332,20 @@ write.table(
   row.names = F,
   col.names = T
 )
+
+cd4_pre_bams = data.table(cd4_metadata[which(cd4_metadata$Condition == "Pre-treatment"), ], keep.rownames = T)
+setnames(cd4_pre_bams, old = "rn", new = "path")
+for (i in 1:3) {cd4_pre_bams[, path := sub("\\.", "/", path)]}
+  
+write.table(
+  cd4_pre_bams,
+  "CD4_memory_RnR_bams.txt",
+  sep = "\t",
+  quote = F,
+  row.names = F,
+  col.names = T
+)
+
 
 ##########################################################################################
 ##########################################################################################
@@ -445,9 +472,35 @@ write.table(
   col.names = T
 )
 
+cd8_r_bams = data.table(cd8_metadata[which(cd8_metadata$Response == "R"), ], keep.rownames = T)
+setnames(cd8_r_bams, old = "rn", new = "path")
+for (i in 1:3) {cd8_r_bams[, path := sub("\\.", "/", path)]}
+
+write.table(
+  cd8_r_bams,
+  "CD8_memory_PrePost_bams.txt",
+  sep = "\t",
+  quote = F,
+  row.names = F,
+  col.names = T
+)
+
 write.table(
   merged_saf[Coord_ID %in% cd8.pre_resdata[pvalue < .05]$coord_id, .(Chr, Start, End)],
   "CD8_memory_RnR.bed",
+  sep = "\t",
+  quote = F,
+  row.names = F,
+  col.names = T
+)
+
+cd8_pre_bams = data.table(cd8_metadata[which(cd8_metadata$Condition == "Pre-treatment"), ], keep.rownames = T)
+setnames(cd8_pre_bams, old = "rn", new = "path")
+for (i in 1:3) {cd8_pre_bams[, path := sub("\\.", "/", path)]}
+
+write.table(
+  cd8_pre_bams,
+  "CD8_memory_RnR_bams.txt",
   sep = "\t",
   quote = F,
   row.names = F,
@@ -672,4 +725,5 @@ heatmap.2(
   ColSideColors = side_cols
 )
 dev.off()
+
 
